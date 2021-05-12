@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+<center>
+<h2>Compiler c/c++/c++11/java/python3.0</h2>
+
+
+<form id="code_form" action="{% url 'Compiler:First_Compiler' %}">
+  {% csrf_token %}
+	<label for="fname">
+      File name:</label>
+    <input type="text" id="fname" name="fname">
+    <br>
+
+
+  <label for="language">Choose a language:</label>
+  <select id="language" name="language">
+    <option value="c">c</option>
+    <option value="c++">c++</option>
+    <option value="c++11">c++11</option>
+    <option value="java">java</option>
+    <option value="python3">python3</option>
+  </select><br>
+
+
+  code here<br>
+  <textarea id="code_code" name="code_code" rows="20" cols="80">
+  {{code}}
+</textarea>
+<br>
+<input type="submit" value="Compile">
+</form>
+
+<script type="text/javascript">
+  $(document).on('submit','#code_form',function(e){
+      e.preventDefault();
+
+      $.ajax({
+              type:'POST',
+              cache: false,
+              url:'',
+              datatype: "html",
+              data:{
+                    fname:$('#fname').val(),
+                    language:$('#language').val(),
+                    code_code:$('#code_code').val(),
+                    csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
+                    },
+                    success:function(output){
+                    $("#output").html(output);
+
+                    }
+             });
+  });
+</script>
+
+
+
+<textarea id="output" name="output" rows="12" cols="40">
+  /*output will be shown here*/
+  output : {{ output }}
+</textarea>
+
+</center>
+</body>
+
+
+
+</html>

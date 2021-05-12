@@ -1,0 +1,222 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css" integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'assets/style.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+</head>
+<body>
+<!--loader
+<div class="modal" style="display">
+    <div class="center">
+        <img alt="" src="{% static 'assets/loader.gif' %}" />
+    </div>
+</div>-->
+<!--loader-->
+    <input type="checkbox" id="nav-toggle">
+    <div class="sidebar">
+        <div class="sidebar-brand">
+          <h1> <span><img src="{% static 'assets/pws-word.png' %}"></span>
+          </h1>
+        </div>
+
+        <div class="sidebar-menu">
+          <ul>
+            {% if request.user.is_authenticated %}
+            <li>
+              <a href="{% url 'Compiler:Profile' %}">
+                <span class="fas fa-users" ></span>
+                <span>{{ request.user.first_name }}</span>
+              </a>
+            </li>
+            {% else %}
+            {% endif %}
+              <li>
+              <a href="{% url 'Compiler:Main_Compiler' %}" class="active">
+                <span class="fas fa-tachometer-alt"></span>
+                <span>Compiler</span>
+              </a>
+            </li>
+              {% if request.user.is_authenticated %}
+            <li>
+              <a href="{% url 'Compiler:Pratice' %}">
+                <span class="fas fa-stream"></span>
+              <span>Practice</span>
+              </a>
+            </li>
+
+            <li>
+              <a href="{% url 'Compiler:All_Contest' %}">
+                <span class="fas fa-boxes"></span>
+                <span>Competition</span>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <span class="fas fa-user-circle"></span>
+                <span>Manage Profile</span>
+              </a>
+            </li>
+
+            <li>
+              <a href="{% url 'Compiler:Logout' %}">
+                <span class="fas fa-tasks"></span>
+                <span>Logout</span>
+              </a>
+            </li>
+            {% else %}
+            <li>
+              <a href="{% url 'Compiler:Login' %}">
+                <span class="fas fa-tasks"></span>
+                <span>Login</span>
+              </a>
+            </li>
+            {% endif %}
+          </ul>
+
+        </div>
+    </div>
+
+    <div class="main-content">
+      <header>
+        <h2>
+          <label for="nav-toggle">
+            <span class="fas fa-bars"></span>
+          </label>
+          {% if request.user.is_authenticated %}
+         Welcome, {{ request.user.first_name }} to pulley web compiler...
+          {% else %}
+          Welcome, to pulley web compiler..
+          {% endif %}
+        </h2>
+
+        <div class="search-wrapper">
+          <span class="fas fa-search"> </span>
+          <input type="search" placeholder="Search..." />
+
+        </div>
+
+        <div class="user-wrapper">
+         <img src="https://media-exp1.licdn.com/dms/image/C5103AQGd1Q7QeOkk2w/profile-displayphoto-shrink_400_400/0/1570086262982?e=1626307200&v=beta&t=hzxahV3DjxVr5YViy4QGGv8xssHJ0IwogiPxwjzX5F4" width="40px" height="40px" alt="profile-img">
+         <div class="">
+            <h4>{{ request.user.first_name }} {{ request.user.last_name  }}</h4>
+            <small>Developer</small>
+         </div>
+        </div>
+      </header>
+
+
+      <main>
+          <!--=========withoutajax=========-->
+<!--<form id="code_form" method="post"  action="{% url 'Compiler:Main_Compiler' %}">-->
+
+<form id="code_form" action="{% url 'Compiler:Main_Compiler' %}">
+    {% csrf_token %}
+        <div class="recent-grid">
+          <div class="projects">
+            <div class="card">
+              <div class="card-header">
+                <h2>Code Here</h2>
+                  <label style="margin-right: -350px;" for="language">Select language: </label>
+                <!-- <button>See all <span class="fas fa-arrow-right"></span> </button> -->
+                <select name="language" id="language">
+                  <option value="c">C</option>
+                  <option value="c++">C++</option>
+                  <option value="c++11">C++11</option>
+                    <option value="c++14">C++14</option>
+                    <option value="c++17">C++17</option>
+                  <option value="java">Java</option>
+                    <option value="python3">Python3</option>
+                </select>
+              </div>
+              <div class="card-body">
+                  <textarea  name="code_code" id="code_code">
+                      {{ code }}
+                  </textarea>
+                  <div  class="compiler">
+                    <!-- <h2>Code Here</h2> -->
+                <!--
+                  <form action="" id="fileform">
+                      <input style="display: none;" type="file" name="" id="UploadFeild">
+                  </form>
+                --> 
+                      <!--<a id="UploadBtn" >Upload File <span class="fas fa-arrow-right"></span> </a> -->
+                    <button type="submit">Compile and Run <span class="fas fa-arrow-right"></span> </button>
+
+
+                    <!-- <button>See all <span class="fas fa-arrow-right"></span> </button> -->
+                  </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="customers">
+            <div class="card">
+              <div class="card-header">
+                  <h2>Input</h2>
+                  <!--<button>See all <span class="fas fa-arrow-right"></span> </button>-->
+              </div>
+              <div class="input-body">
+                <textarea name="inputt" id="inputt">{{inputt}}</textarea>
+              </div>
+            </div>
+
+</form>
+
+           <!--ajax script-->
+    <script type="text/javascript">
+  $(document).on('submit','#code_form',function(e){
+      e.preventDefault();
+
+      $.ajax({
+              type:'POST',
+              cache: false,
+              url:'',
+              datatype: "html",
+              data:{
+                    inputt:$('#inputt').val(),
+                    language:$('#language').val(),
+                    code_code:$('#code_code').val(),
+                    csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
+                    },
+                    /* --------- testing loader ------*/
+                    beforeSend: function () {
+                       $(".modal").show();
+                    },
+                    complete: function () {
+                        $(".modal").hide();
+                    },
+                    /* --------- testing loader ------*/
+                    success:function(output){
+                    $("#output").html(output);
+
+                    }
+             });
+  });
+</script>
+
+
+            <br>
+            <div class="card">
+              <div class="card-header">
+                  <h2>Output</h2>
+                  <!--<button>See all <span class="fas fa-arrow-right"></span> </button>-->
+                  
+              </div>
+              <div class="input-body">
+                <textarea name="output" id="output">{{output}}</textarea>
+              </div>
+            </div>
+
+          </div>
+          
+        </div>
+
+
+      </main>
+    </div>
+    <script src="{% static 'assets/main.js' %}"></script>
+</body>
+</html>

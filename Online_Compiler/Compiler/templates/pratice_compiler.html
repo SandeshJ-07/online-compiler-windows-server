@@ -1,0 +1,300 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css" integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'assets/style.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/practice.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+
+    <input type="checkbox" id="nav-toggle">
+    <div class="sidebar">
+        <div class="sidebar-brand">
+          <h1> <span><img src="{% static 'assets/pws-word.png' %}"></span>
+          </h1>
+        </div>
+
+        <div class="sidebar-menu">
+          <ul>
+            {% if request.user.is_authenticated %}
+            <li>
+              <a href="{% url 'Compiler:Profile' %}">
+                <span class="fas fa-users" ></span>
+                <span>{{ request.user.first_name }}</span>
+              </a>
+            </li>
+            {% else %}
+            {% endif %}
+              <li>
+              <a href="{% url 'Compiler:Main_Compiler' %}">
+                <span class="fas fa-tachometer-alt"></span>
+                <span>Compiler</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'Compiler:Pratice' %}"class="active">
+                <span class="fas fa-stream"></span>
+              <span>Practice</span>
+              </a>
+            </li>
+
+            <li>
+              <a href="{% url 'Compiler:All_Contest' %}">
+                <span class="fas fa-boxes"></span>
+                <span>Competition</span>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <span class="fas fa-user-circle"></span>
+                <span>Manage Profile</span>
+              </a>
+            </li>
+            {% if request.user.is_authenticated %}
+            <li>
+              <a href="{% url 'Compiler:Logout' %}">
+                <span class="fas fa-tasks"></span>
+                <span>Logout</span>
+              </a>
+            </li>
+            {% else %}
+            <li>
+              <a href="{% url 'Compiler:Login' %}">
+                <span class="fas fa-tasks"></span>
+                <span>Login</span>
+              </a>
+            </li>
+            {% endif %}
+          </ul>
+
+        </div>
+    </div>
+
+    <div class="main-content">
+      <header>
+        <h2>
+          <label for="nav-toggle">
+            <span class="fas fa-bars"></span>
+          </label>
+          {% if request.user.is_authenticated %}
+         Welcome, {{ request.user.first_name }} to pulley web compiler...
+          {% else %}
+          Welcome, to pulley web compiler..
+          {% endif %}
+        </h2>
+
+        <div class="search-wrapper">
+          <span class="fas fa-search"> </span>
+          <input type="search" placeholder="Search..." />
+
+        </div>
+
+        <div class="user-wrapper">
+         <img src="https://media-exp1.licdn.com/dms/image/C5103AQGd1Q7QeOkk2w/profile-displayphoto-shrink_400_400/0/1570086262982?e=1626307200&v=beta&t=hzxahV3DjxVr5YViy4QGGv8xssHJ0IwogiPxwjzX5F4" width="40px" height="40px" alt="profile-img">
+         <div class="">
+            <h4>{{ request.user.first_name }} {{ request.user.last_name  }}</h4>
+            <small>Developer</small>
+         </div>
+        </div>
+      </header>
+
+      <main>
+        
+
+          <div class="projects">
+            <div class="practicecard card">
+                <div class="card-header">
+                  <h2>Qid: {{ data.id }} -  {{ data.title }}</h2>
+                </div>
+                <div class="card-body">
+                    <textarea  name="" id="">
+                        {{ data.long_des }}
+
+                    </textarea>
+                    <!-- <div  class="compiler">
+                      <input style="display: none;" type="file" name="" id="UploadFeild">
+                      <button id="UploadBtn" >Upload File <span class="fas fa-arrow-right"></span> </button>
+                      <button>See all <span class="fas fa-arrow-right"></span> </button>
+                      <button>See all <span class="fas fa-arrow-right"></span> </button>
+                    </div> -->
+                </div>
+              </div>
+            
+            <div class="practicecard card">
+                 <form id="code_form" action="{% url 'Compiler:SolvePraticeProblem' data.id %}">
+                       {% csrf_token %}
+              <div class="card-header">
+                <h2>Code Here</h2>
+
+                <label for="language">Select language: </label>
+                <!-- <button>See all <span class="fas fa-arrow-right"></span> </button> -->
+                <select name="language" id="language">
+                  <option value="c">C</option>
+                  <option value="c++">C++</option>
+                  <option value="c++11">C++11</option>
+                    <option value="c++14">C++14</option>
+                    <option value="c++17">C++17</option>
+                  <option value="java">Java</option>
+                    <option value="python3">Python3</option>
+                </select>
+              </div>
+              <div class="card-body">
+                  <textarea  name="code_code" id="code_code">
+                      {{code}}
+                  </textarea>
+                  <div  class="compiler">
+                    <!-- <h2>Code Here</h2> -->
+                    <button type="submit">Complie and Run <span class="fas fa-code"></span> </button>
+                    <button type="submit">Submit <span class="fas fa-arrow-right"></span> </button>
+                  </div>
+              </div>
+
+            </div>
+
+
+
+
+
+
+          <!-- <div class="customers">
+            <div class="card">
+              <div class="card-header">
+                  <h2>Input</h2>
+                  <button>See all <span class="fas fa-arrow-right"></span> </button>
+              </div>
+              <div class="input-body">
+                <textarea name="" id=""></textarea>
+              </div>
+            </div>
+            <br>
+            <div class="card">
+              <div class="card-header">
+                  <h2>Output</h2>
+                  <button>See all <span class="fas fa-arrow-right"></span> </button>
+                  
+              </div>
+              <div class="input-body">
+                <textarea name="" id=""></textarea>
+              </div>
+            </div>
+
+          </div>
+           -->
+        </div>  
+          
+          
+          
+          
+        <div class="ritikwedssneha">
+          
+          <div class="pavitrakidrasti">
+            <div>
+              <label for=""><input type="checkbox" name="" id="Input_checkbox">custom Input</label>
+            <br>
+            <div id="dvPassport" style="display: none">
+                <textarea name="inputt" id="inputt" placeholder="Custom Input Here" class="custominput"></textarea>
+            </div>
+            </div>
+          </div>
+        </form>
+             <!--ajax script-->
+    <script type="text/javascript">
+  $(document).on('submit','#code_form',function(e){
+      e.preventDefault();
+
+      $.ajax({
+              type:'POST',
+              cache: false,
+              url:'',
+              datatype: "html",
+              data:{
+                    inputt:$('#inputt').val(),
+                    language:$('#language').val(),
+                    code_code:$('#code_code').val(),
+                    csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
+                    },
+                    /*
+                    success:function(output){
+                    $("#output").html(output);
+                    }
+                    */
+
+                    /*
+                    success:function(output, message, ou){
+                    $("#output").html(output);
+                    $("#message").html(message);
+                    $("#expected_output").html(ou);
+                    }
+                    */
+
+
+
+                    success: function(myfile){
+                    //var data = JSON.parse(myfile);
+
+                    $("#output").html(myfile.output);
+                    $("#message").html(myfile.message);
+                    $("#expected_output").html(myfile.expected_output);
+                    $("#test_case").html(myfile.test_case);
+                   }
+
+             });
+
+  });
+</script>
+
+
+          <div class="yati-vaishnavi">
+            <div class="left">
+              <div class="testcase">
+                  {% if message == "Test case Passed!" %}
+                <h3 style="color:green;">Sample TestCase1</h3>
+                  {% else %}
+                  <h3>Sample TestCase1</h3>
+                  {% endif %}
+              </div>
+
+            </div>
+            <div class="right">
+              <div class="compiler_test">
+              <div class="compilerheading"><h4>Compiler Message</h4></div>
+              <div class="compilerdata" ><p id="message">{{message}}</p></div>
+            </div>
+            <div class="compiler_test">
+              <div class="compilerheading"><h4>Input (stdin)</h4><h4><a href="">Download</a></h4></div>
+              <div class="compilerdata" ><p id="test_case">{{inn}}</p></div>
+            </div>
+            <div class="compiler_test">
+              <div class="compilerheading"><h4>Your Output (stdout)</h4></div>
+              <div class="compilerdata" ><p id="output">{{output}}</p></div>
+            </div>
+            <div class="compiler_test">
+              <div class="compilerheading"><h4>Expected Output</h4><h4><a href="">Download</a></h4></div>
+              <div class="compilerdata" ><p id="expected_output">{{ou}}</p></div>
+            </div></div>
+            
+          </div>
+          
+
+        </div>
+
+      </main>
+    </div>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script>
+         $(function () {
+                $("#Input_checkbox").click(function () {
+                    if ($(this).is(":checked")) {
+                        $("#dvPassport").show(1000);
+                    } else {
+                        $("#dvPassport").hide();
+                    }
+                });
+            });
+    </script>    
+   
+            
+</body>
+</html>

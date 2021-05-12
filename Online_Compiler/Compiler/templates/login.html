@@ -1,0 +1,128 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css" integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'assets/style.css' %}">
+</head>
+<body>
+    
+    <input type="checkbox" id="nav-toggle">
+    <div class="sidebar">
+        <div class="sidebar-brand">
+          <h1> <span><img src="{% static 'assets/pws-word.png' %}"></span>
+          </h1>
+        </div>
+        
+        <div class="sidebar-menu">
+          <ul>
+            {% if request.user.is_authenticated %}
+            <li>
+              <a href="#" class="active">
+                <span class="fas fa-users" ></span>
+                <span>{{ request.user.first_name }}</span>
+              </a>
+            </li>
+            {% else %}
+            {% endif %}
+              <li>
+              <a href="{% url 'Compiler:Main_Compiler' %}">
+                <span class="fas fa-tachometer-alt"></span>
+                <span>Compiler</span>
+              </a>
+            </li>
+
+            {% if request.user.is_authenticated %}
+            <li>
+              <a href="{% url 'Compiler:Logout' %}">
+                <span class="fas fa-tasks"></span>
+                <span>Logout</span>
+              </a>
+            </li>
+            {% else %}
+            <li>
+              <a href="{% url 'Compiler:Login' %}" class="active">
+                <span class="fas fa-tasks"></span>
+                <span>Login</span>
+              </a>
+            </li>
+            {% endif %}
+          </ul>
+
+        </div>
+    </div>
+
+    <div class="main-content">
+      <header>
+        <h2>
+          <label for="nav-toggle">
+            <span class="fas fa-bars"></span>
+          </label>
+          {% if request.user.is_authenticated %}
+         Welcome, {{ request.user.first_name }} to pulley web compiler...
+          {% else %}
+          Welcome, to pulley web compiler..
+          {% endif %}
+        </h2>
+
+        <div class="search-wrapper">
+          <span class="fas fa-search"> </span>
+          <input type="search" placeholder="Search..." />
+
+        </div>
+
+        <div class="user-wrapper">
+         <img src="https://media-exp1.licdn.com/dms/image/C5103AQGd1Q7QeOkk2w/profile-displayphoto-shrink_400_400/0/1570086262982?e=1626307200&v=beta&t=hzxahV3DjxVr5YViy4QGGv8xssHJ0IwogiPxwjzX5F4" width="40px" height="40px" alt="profile-img">
+         <div class="">
+            <h4>{{ request.user.first_name }} {{ request.user.last_name  }}</h4>
+            <small>Developer</small>
+         </div>
+        </div>
+      </header>
+
+      <main>
+        
+                   
+        <div class="cards">
+          <div style="width: 400px;" class="card-single">
+            <div>
+              <h1>SignUp</h1><br>
+              <span>This feature will be enabled after final release you can only use the main compiler, where you can code, give manual input and get the output.</span>
+            </div>
+            <div>
+              <span class="fas fa-wallet"></span>
+            </div>
+          </div>
+            <div style="width: 800px;" class="card-single">
+            <div>
+              <h1>Login</h1>
+              <span>Login With provided User id's only</span><br><br>
+                {% if error %}
+                <span style="color:red;">It's seems like you don't have credentials provided by team PWS
+                <br> contact team at pulley-webstudio@gmail.com</span>
+                {% endif %}
+            <form method="post">
+                {% csrf_token %}
+                <br><br><br><br>
+                <label style="color: aliceblue;">User Id/ Enrollment Number:</label>  <br>  
+                <input name="usr" type="text"><br><br>
+                <label style="color: aliceblue;">Password:</label><br>
+                <input name="pwd" type="password"><br><br>
+                <button type="submit">Login</button>
+            </form>
+                
+
+            </div>
+            <div>
+              <span class="fas fa-wallet"></span>
+            </div>
+           
+          </div>
+
+        </div>
+
+      </main>
+    </div>
+    <script src="{% static 'assets/main.js' %}"></script>
+</body>
+</html>
