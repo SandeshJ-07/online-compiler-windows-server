@@ -18,7 +18,7 @@ This is the pratice compiler where input test case are given directly from backe
 Contest Organized by PWS
 ![myimage-alt-tag](Screenshot%20(903).png)
 
-###System Requirement
+### System Requirement
 * java jdk
 * python3.0 interpreter
 * gcc and g++
