@@ -12,6 +12,10 @@ c_path ="E:\Online-compiler-testing-ui\compiler\Online_Compiler\code_compile_run
 
 
 # Create your views here.
+def Index_Information(request):
+    return render(request, 'index-information.html')
+
+
 def First_Compiler(request):
     output = None
     code = ""

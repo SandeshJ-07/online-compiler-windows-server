@@ -6,6 +6,9 @@ from django.conf import settings
 app_name = "Compiler"
 
 urlpatterns = [
+    #index_information
+    path('',Index_Information, name='Index_Information'),
+
     #compiler_only
     path('compiler-without-ui/', First_Compiler, name='First_Compiler'),
     path('main-compiler/', Main_Compiler, name='Main_Compiler'),
