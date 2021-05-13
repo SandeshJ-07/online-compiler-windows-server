@@ -24,7 +24,7 @@ Contest Organized by PWS
 * gcc and g++
 * mingw, and bits/std++.h file
 * requirements.txt
-* 
+
 # 
 ##### some Commands
 - activate venv - $ venv-compiler\Scripts\activate
