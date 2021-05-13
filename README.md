@@ -29,7 +29,7 @@ Contest Organized by PWS
 ##### some Commands
 - activate venv - $ venv-compiler\Scripts\activate
 - updating pakgaes to requirment - $ pip freeze > requirements.txt
-- Host nserver - py manage.py runserver
+- Host nserver - $ py manage.py runserver
  
 
 # future work
