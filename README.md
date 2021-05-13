@@ -26,10 +26,11 @@ Contest Organized by PWS
 * requirements.txt
 * 
 # 
-#####S ome Commands
+##### some Commands
 - activate venv - $ venv-compiler\Scripts\activate
 - updating pakgaes to requirment - $ pip freeze > requirements.txt
-- 
+- Host nserver - py manage.py runserver
+ 
 
 # future work
 * 
