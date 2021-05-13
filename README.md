@@ -24,11 +24,12 @@ Contest Organized by PWS
 * gcc and g++
 * mingw, and bits/std++.h file
 * requirements.txt
-##
-#####Some Commands
+* 
+# 
+#####S ome Commands
 - activate venv - $ venv-compiler\Scripts\activate
 - updating pakgaes to requirment - $ pip freeze > requirements.txt
 - 
 
-#####future work
+# future work
 * 
